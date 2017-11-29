@@ -10,28 +10,32 @@ public class TicTacToe {
 
 	// global variables
 	Scanner scan = new Scanner(System.in);
-	private int input = -1;
-	private String[] gamestate = {" ", " ", " ","_", "_", "_", "_", "_", "_"};
-	private boolean x = true;
+	private String[] gs = {" ", " ", " ", " ", " ", " ", " ", " ", " "};		//gamestate
+
+	public String[] getGs() {
+		return gs;
+	}
+
+	private boolean curPlayer = true;
 
 	public void play(){
 		while (true){
 			System.out.println("Press 1 to 9 on the numpad for the corresponding space");
-			input = scan.nextInt();
+			int input = scan.nextInt();
 			System.out.println();
 			if (input == 0){
 				break;
 			}else{
-				if(gamestate[input-1] == "X" || gamestate[input-1] == "O"){
+				if(gs[input-1].equals("X") || gs[input-1].equals("O")){
 					System.out.println("invalid input\n");
 				}else{
-					if(x){
-						gamestate[input-1] = "X";
+					if(curPlayer){
+						makeMove(input-1, "X");
 					}else{
-						gamestate[input-1] = "O";
+						makeMove(input-1, "O");
 					}
-					if (checkWinCondition(gamestate)) {
-						if(x){
+					if (checkWinCondition()) {
+						if(curPlayer){
 							System.out.println("X has won!\n");
 
 						}else{
@@ -40,7 +44,7 @@ public class TicTacToe {
 						printboard();
 						break;
 					}
-					x = !x;
+					curPlayer = !curPlayer;
 				}
 			}
 			printboard();
@@ -48,7 +52,7 @@ public class TicTacToe {
 		scan.close();
 	}
 
-	public boolean checkWinCondition(String[] gs){
+	public boolean checkWinCondition(){
 		boolean win = false;
 		for(int i = 0; i < 3; i++){
 			win =	win ||
@@ -67,16 +71,21 @@ public class TicTacToe {
 	}
 
 	public void printboard(){
-		String[] gs = gamestate;
 		String spielfeld =
-				"_"+gs[6]+"_|_"+gs[7]+"_|_"+gs[8]+"_\n"
+						  "_"+gs[6]+"_|_"+gs[7]+"_|_"+gs[8]+"_\n"
 						+ "_"+gs[3]+"_|_"+gs[4]+"_|_"+gs[5]+"_\n"
 						+ " "+gs[0]+" | "+gs[1]+" | "+gs[2]+" \n";
 		System.out.println(spielfeld);
 	}
 
 
-	public boolean makeMove() {
-		return true;
+	public boolean makeMove(int field, String player) {
+		// field contains a number from 0-8, corresponding to the field, numpad numbers - 1
+		// player is either X or O
+		if(gs[field].equals(" ")){
+			gs[field] = player;
+			return true;
+		}
+		return false;
 	}
 }
