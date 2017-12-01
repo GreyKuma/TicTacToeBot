@@ -7,13 +7,10 @@ import java.util.Set;
 
 public class Bag<T> {
     Map<T, Integer> bag = new HashMap<T,Integer>();
-    public Bag(){
-
-    }
 
     public void add(T t){
         if(bag.containsKey(t))
-            bag.replace(t, bag.get(t)+1);
+            bag.replace(t, bag.get(t)+3);
         else
             bag.put(t, 1);
     }
@@ -21,18 +18,23 @@ public class Bag<T> {
     public boolean remove(T t){
         if(bag.containsKey(t) && bag.get(t) > 1){
             return bag.replace(t, bag.get(t), bag.get(t)-1);
-        }else{
-            return bag.remove(t,1);
         }
+//        else{
+//            return bag.remove(t,1);           //Stubborn bot, there is always a chance for any move, and it will never forfeit.
+//        }
+        return false;
     }
 
     public T pullRandom(){
         Random rnd = new Random();
-        int n = rnd.nextInt(getTotal());
-        for(Map.Entry<T,Integer> e: bag.entrySet()){
-            n -= e.getValue();
-            if(n<0){
-                return e.getKey();
+        int tot = getTotal();
+        if(tot > 0){
+            int n = rnd.nextInt(getTotal());
+            for(Map.Entry<T,Integer> e: bag.entrySet()){
+                n -= e.getValue();
+                if(n<0){
+                    return e.getKey();
+                }
             }
         }
         return null;
