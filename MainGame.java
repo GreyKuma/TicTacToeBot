@@ -1,6 +1,8 @@
 package tictactoebot;
 
 import java.util.Scanner;
+import java.util.Random;
+
 public class MainGame {
 	static Scanner scan = new Scanner(System.in);
 	static Bot bot1 = new Bot();	// Player X
@@ -8,6 +10,7 @@ public class MainGame {
 	static int x, o = 0;
 	
 	public static void main(String[] args) {
+		Random rnd = new Random();
 		System.out.println("How many games should the bot train?");
 		int trainingssize = scan.nextInt();
 		System.out.println("How many games do you want to play against the trained bot?");
@@ -24,7 +27,8 @@ public class MainGame {
 		o = 0;
 		for(int i=0; i< fightsize; i++){
 			System.out.println("---------------Round " + i + "-----------------");
-			playAgainstHuman();
+
+			playAgainstBot(rnd.nextInt(1));
 			System.out.println("Wins X:O " + x + ":" + o);
 		}
 		if(x > o){
@@ -79,15 +83,25 @@ public class MainGame {
 		}
 	}
 
-	static void playAgainstHuman(){
+	static void playAgainstBot(int botnr){
 		TicTacToe game = new TicTacToe();
-		String curPlay = "X";
+		Bot bot;
+		String curPlay;
+
 		int moveCount = 0;
+		if(botnr == 0){
+			curPlay = "X";
+			bot = bot1;
+		}else{
+			curPlay = "O";
+			bot = bot2;
+		}
+
 		while(moveCount < 9){
 			moveCount++;
 			int move;
 			if (curPlay.equals("X")){
-				move = bot1.makeMove(game.getGs());
+				move = bot.makeMove(game.getGs());
 				System.out.println(move+1);
 				game.makeMove(move,curPlay);
 			}else{
@@ -108,11 +122,19 @@ public class MainGame {
 
 			if (game.checkWinCondition()){
 				if(curPlay.equals("X")){
-					bot1.reward();
-					x++;
+					bot.reward();
+					if(botnr == 0){
+
+						x++;
+					}else{
+						o++;
+					}
 				}else{
-					bot1.punish();
-					o++;
+					if(botnr == 1){
+						o++;
+					}else {
+						x++;
+					}
 				}
 				System.out.println(curPlay + " has won!");
 				break;

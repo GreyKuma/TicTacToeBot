@@ -7,7 +7,7 @@ public class Bot {
     to find an optimal strategy for a given problem,
     in this case TicTacToe.
      */
-    // todo: Somehow save the "Brain" so Bot doesn't need to be trained every time.
+
 
     private Map<String, Bag> map = new HashMap<String, Bag>();      //Saving all the possible moves and their "next move bags".
     private List<Map.Entry<String,Integer>> playPath = new LinkedList<Map.Entry<String,Integer>>();       //To save the taken path for later adjustment of occurence percentages.
@@ -67,6 +67,10 @@ public class Bot {
         Helper Function to find the next move for a given gamestate gs.
          */
         return (Integer)map.get(getStateString(gs)).pullRandom();
+    }
+
+    public void saveBrain(){
+        // todo: Somehow save the "Brain" so Bot doesn't need to be trained every time.
     }
 
 }

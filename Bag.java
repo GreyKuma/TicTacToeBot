@@ -6,6 +6,10 @@ import java.util.Random;
 import java.util.Set;
 
 public class Bag<T> {
+    /*
+    This class implements a set which allows duplicates basically.
+    That way you can effectivly have a bag of things and pull them out in a ratio based on their occurence.
+     */
     Map<T, Integer> bag = new HashMap<T,Integer>();
 
     public void add(T t){

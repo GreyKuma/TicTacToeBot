@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class TicTacToe {
 	// constructor
+	// todo make playing field bigger.
 	public TicTacToe() {
 
 	}
