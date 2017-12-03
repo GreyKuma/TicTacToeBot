@@ -10,25 +10,36 @@ public class MainGame {
 	static int x, o = 0;
 	
 	public static void main(String[] args) {
+
 		Random rnd = new Random();
 		System.out.println("How many games should the bot train?");
 		int trainingssize = scan.nextInt();
 		System.out.println("How many games do you want to play against the trained bot?");
 		int fightsize = scan.nextInt();
+		long startTime = System.nanoTime();
 		for(int i = 0; i < trainingssize; i++){
-			if(i%10000 == 0){
+			if(i%100000 == 0){
 				System.out.println(i);
 			}
 //			System.out.println("---------------Round " + i + "-----------------");
 			playRound();
 //			System.out.println("Wins X:O " + x + ":" + o);
 		}
+		long endTime = System.nanoTime();
+		double durationms = (endTime-startTime)/1000000.0;
+		double durations = durationms /1000.0;
+		double durationm = durations / 60.0;
+		java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+
+		System.out.println("ms: " + df.format(durationms) + ", s: " + df.format(durations) + ", min: " + df.format(durationm));
+		System.out.println("ca. " + df.format(durationms/(double)trainingssize) + "ms/game");
+		System.out.println("ca. " + df.format(trainingssize/durations) + "games/s");
 		x = 0;
 		o = 0;
 		for(int i=0; i< fightsize; i++){
 			System.out.println("---------------Round " + i + "-----------------");
 
-			playAgainstBot(rnd.nextInt(1));
+			playAgainstBot(rnd.nextInt(2));
 			System.out.println("Wins X:O " + x + ":" + o);
 		}
 		if(x > o){
@@ -84,6 +95,7 @@ public class MainGame {
 	}
 
 	static void playAgainstBot(int botnr){
+		System.out.println("Playing against Bot " + botnr);
 		TicTacToe game = new TicTacToe();
 		Bot bot;
 		String curPlay;
@@ -96,6 +108,7 @@ public class MainGame {
 			curPlay = "O";
 			bot = bot2;
 		}
+		game.printboard();
 
 		while(moveCount < 9){
 			moveCount++;
@@ -130,6 +143,7 @@ public class MainGame {
 						o++;
 					}
 				}else{
+					bot.punish();
 					if(botnr == 1){
 						o++;
 					}else {
